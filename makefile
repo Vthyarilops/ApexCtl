@@ -13,7 +13,9 @@ hs_files = src/Main.hs
 config_files = \
 	config/90-apexctl.rules \
 	config/90-apex.hwdb \
-	config/Xmodmap
+	config/Xmodmap \
+	config/apex \
+	config/apex.service
 binary = dist/build/apexctl/apexctl
 binary_install_dir = /usr/local/bin
 
@@ -35,6 +37,9 @@ check-installed:
 	[ -f $(INSTALL_ROOT)/etc/udev/hwdb.d/90-apex.hwdb ]
 	[ -f $(INSTALL_ROOT)/etc/udev/rules.d/90-apexctl.rules ]
 	[ -f $(INSTALL_ROOT)/etc/X11/Xmodmap.bak ]
+	[ -f $(INSTALL_ROOT)/usr/local/bin/apex ]
+	[ -f $(INSTALL_ROOT)/etc/systemd/system/apex.service ]
+
 	echo -en "ApexCtl is fully installed\n"
 
 # basic commands
@@ -46,6 +51,10 @@ enable: check-root
 	# reload udev rules
 	udevadm hwdb --update
 	udevadm control --reload
+	# hopefully this works
+	echo "Add yourself to the plugdev group"
+	systemctl enable apex.service 
+	systemctl start apex.service
 	# apply xmodmap
 	xmodmap config/Xmodmap
 
@@ -59,6 +68,9 @@ install: check-build
 	# install udev rules
 	install config/90-apex.hwdb $(INSTALL_ROOT)/etc/udev/hwdb.d/
 	install config/90-apexctl.rules $(INSTALL_ROOT)/etc/udev/rules.d/
+	# install start scripts
+	install -m 755 config/apex $(INSTALL_ROOT)/usr/local/bin/apex
+	install config/apex.service $(INSTALL_ROOT)/etc/systemd/system/apex.service
 	# install Xmodmap globally
 	[[ -f $(INSTALL_ROOT)/etc/X11/Xmodmap ]] && \
 		cp $(INSTALL_ROOT)/etc/X11/Xmodmap $(INSTALL_ROOT)/etc/X11/Xmodmap.bak || :
@@ -69,7 +81,9 @@ uninstall:
 	rm -f \
 		$(INSTALL_ROOT)$(binary_install_dir)/apexctl \
 		$(INSTALL_ROOT)/etc/udev/hwdb.d/90-apex.hwdb \
-		$(INSTALL_ROOT)/etc/udev/rules.d/90-apexctl.rules
+		$(INSTALL_ROOT)/etc/udev/rules.d/90-apexctl.rules \
+		$(INSTALL_ROOT)/usr/local/bin/apex \
+		$(INSTALL_ROOT)/etc/systemd/system/apex.service 
 	# unapply Xmodmap using backup made during install
 	[[ -f $(INSTALL_ROOT)/etc/X11/Xmodmap.bak ]] && \
 		cp $(INSTALL_ROOT)/etc/X11/Xmodmap $(INSTALL_ROOT)/etc/X11/Xmodmap.bak2 && \
