@@ -2,6 +2,7 @@
 # 2) sudo udevadm hwdb --update
 # 3) sudo udevadm control --reload
 
+
 keyboard:usb:v1038p120[02]*
 evdev:input:b0003v1038p120[02]*
  KEYBOARD_KEY_0700a8=prog1
