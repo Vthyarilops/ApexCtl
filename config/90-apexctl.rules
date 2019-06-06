@@ -6,5 +6,4 @@ ACTION=="add", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="1202", \
   RUN+="/usr/local/bin/apexctl"
 
 SUBSYSTEM=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1202", MODE="0664", GROUP="plugdev"
-
 SUBSYSTEM=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1200", MODE="0664", GROUP="plugdev"
