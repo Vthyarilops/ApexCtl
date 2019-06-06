@@ -1,7 +1,10 @@
 # 1) Place this to /etc/udev/rules.d/90-apexctl.rules
 
 ACTION=="add", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="1200", \
-  RUN+="/usr/local/sbin/apexctl"
+  RUN+="/usr/local/bin/apexctl"
 ACTION=="add", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="1202", \
-  RUN+="/usr/local/sbin/apexctl"
+  RUN+="/usr/local/bin/apexctl"
 
+SUBSYSTEM=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1202", MODE="0664", GROUP="plugdev"
+
+SUBSYSTEM=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1200", MODE="0664", GROUP="plugdev"
