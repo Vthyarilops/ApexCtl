@@ -4,7 +4,7 @@ Documentation="https://github.com/Vthyarilops/ApexCtl"
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/apex
+ExecStart=/usr/local/bin/apex --boot
 
 [Install]
 WantedBy=multi-user.target
