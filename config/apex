@@ -1,19 +1,136 @@
 #!/bin/bash
 
-# Activate macros and colors
-#ff0000 = red
-#ff00ff = purple
-#0000ff = blue
-#00ff00 = green
-#00ffff = cyan trying 66ffff:1-8
-sleep 8
-apexctl
-sleep 2
-apexctl colors \
--s ff0000:8 \
--n ff00ff:8 \
--w 0000ff:8 \
--e 00ffff:8 \
--l 00ff00:8
+
+function log_info {
+    echo "$(tput setaf 4)$1$(tput sgr0)" >&2
+}
+function log_warn {
+    echo "$(tput setaf 3)$1$(tput sgr0)" >&2
+}
+function log_error {
+    echo "$(tput setaf 1)ERROR:$(tput sgr0) $1" >&2
+}
+
+function start_apex {
+    sleep 8
+    apexctl
+    sleep 2
+    apexctl colors \
+    -s ff0000:8 \
+    -n ff00ff:8 \
+    -w 0000ff:8 \
+    -e 00ffff:8 \
+    -l 00ff00:8
+}
+
+
+
+function display_help {
+cat <<EOS
+Usage: apex [options]  <args> 
+
+  apex -b | --boot       Start script at boot to enable macros and Lights  
+  apex blue              Blue Lights
+  apex green             Green Lights
+  apex red               Red Lights
+  apex purple            Purple Lights
+  apex teal              Teal Lights
+  apex orange            Orange Lights
+  apex yellow            Yellow Lights
+  apex rainbow           Multiple Colored Lights
+
+Options:
+  -h | --help		Show this screen.
+  -v | --verbose 	Display the command to be passed through.
+  --dry-run         Display the command without running it.
+
+EOS
+}
+
+while :
+do
+	case "$1" in
+		-h | --help)
+			display_help  # Call your function
+			# no shifting needed here, we're done.
+			exit 0
+			;;
+		-v | --verbose)
+			verbose=true
+			shift
+			;;
+		-b | --boot)
+			start_apex
+			shift
+			;;
+		--dry-run)
+			dry_run=true
+			shift
+			;;
+		--) # End of all options
+			shift
+			break
+			;;
+		-*)
+			log_error "Unknown option: $1"
+			break
+			;;
+		*)  # No more options
+			break
+			;;
+    esac
+done
+
+case "$1" in
+	    'blue')
+		    shift
+	    	CMD_ARGS="apexctl colors -s 0000ff:8 -n 0000ff:8 -w 0000ff:8 -e 0000ff:8 -l 0000ff:8"
+		    ;;
+	    'green')
+            shift
+	    	CMD_ARGS="apexctl colors -s 00ff00:8 -n 00ff00:8 -w 00ff00:8 -e 00ff00:8 -l 00ff00:8"
+            ;;
+	    'red')
+	        shift
+	    	CMD_ARGS="apexctl colors -s ff0000:8 -n ff0000:8 -w ff0000:8 -e ff0000:8 -l ff0000:8"
+	        ;;
+	    'purple')
+	        shift
+	    	CMD_ARGS="apexctl colors -s ff00ff:8 -n ff00ff:8 -w ff00ff:8 -e ff00ff:8 -l ff00ff:8"
+            ;;
+        'teal')
+            shift
+	    	CMD_ARGS="apexctl colors -s 00ffff:8 -n 00ffff:8 -w 00ffff:8 -e 00ffff:8 -l 00ffff:8"
+            ;;
+	'yellow')
+		shift
+	    	CMD_ARGS="apexctl colors -s ffff00:8 -n ffff00:8 -w ffff00:8 -e ffff00:8 -l ffff00:8"
+		;;
+	'orange')
+		shift
+	    	CMD_ARGS="apexctl colors -s ffa500:8 -n ffa500:8 -w ffa500:8 -e ffa500:8 -l ffa500:8"
+		;;
+	'rainbow')
+		shift
+	    	CMD_ARGS="apexctl colors -s ff0000:8 -n ff00ff:8 -w 0000ff:8 -e 00ffff:8 -l 00ff00:8"
+		;;
+
+	 *)
+		    log_error "Unknown command: $1"
+		   exit 1
+        ;;
+	esac
+
+# echo the whole command if verbose is enabled
+if [ "$verbose" = true ]; then
+	log_info "=> $(tput sgr0)$CMD_ARGS $@"
+fi
+
+# Call the command
+if [ "$dry_run" = true ]; then
+	echo "$CMD_ARGS $@" 
+else
+	$CMD_ARGS "$@"
+fi
 
 exit
