@@ -5,9 +5,11 @@
 =========================================================
 
 ### Contributors ###
-tuxmark5 : [github.com/tuxmark5](http://github.com/tuxmark5)  
-Zimmux : [github.com/Zimmux](http://github.com/Zimmux)  
-kiwistrongis : [github.com/kiwistrongis](http://github.com/kiwistrongis)  
+tuxmark5 : [github.com/tuxmark5](https://github.com/tuxmark5)  
+Zimmux : [github.com/Zimmux](https://github.com/Zimmux)  
+kiwistrongis : [github.com/kiwistrongis](https://github.com/kiwistrongis)  
+.... also
+Vthyarilops : [github.com/Vthyarilops] (https://github.com/Vthyarilops)  
 
 ## Dependencies ##
  - udev >= 206
