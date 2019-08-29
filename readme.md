@@ -8,7 +8,7 @@
 tuxmark5 : [github.com/tuxmark5](https://github.com/tuxmark5)  
 Zimmux : [github.com/Zimmux](https://github.com/Zimmux)  
 kiwistrongis : [github.com/kiwistrongis](https://github.com/kiwistrongis)  
-.... also 
+... also 
 Vthyarilops : [github.com/Vthyarilops] (https://github.com/Vthyarilops)  
 
 ## Dependencies ##
